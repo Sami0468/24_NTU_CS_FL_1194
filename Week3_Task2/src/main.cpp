@@ -1,31 +1,42 @@
-// Week3-Lecture2
-// Timer Interrupt (Internal)
-// Embedded IoT System Fall-2026
-
-// Name: xyz                  Reg#: 1234
 
 #include <Arduino.h>
 
-#define LED 4
+#define LED 2
 
 hw_timer_t *My_timer = NULL;
-volatile bool ledState = false;
 
-void IRAM_ATTR onTimer() {
-  ledState = !ledState;
-  digitalWrite(LED, ledState);
+// ISR - Interrupt Service Routine
+void IRAM_ATTR onTimer()
+{
+    digitalWrite(LED, !digitalRead(LED));
 }
 
-void setup() {
-  pinMode(LED, OUTPUT);
-  digitalWrite(LED, LOW);
+void setup()
+{
+    pinMode(LED, OUTPUT);
 
-  My_timer = timerBegin(0, 80, true);            // timer 0, prescaler 80 -> 1 MHz (1 tick = 1 µs)
-  timerAttachInterrupt(My_timer, &onTimer, true);
-  timerAlarmWrite(My_timer, 1000000, true);      // every 1 s, auto-reload
-  timerAlarmEnable(My_timer);
+    // Timer 0
+    // ESP32 clock = 80 MHz
+    // Divider = 80
+    // 80 MHz / 80 = 1 MHz
+    // Therefore, 1 tick = 1 microsecond
+
+    My_timer = timerBegin(0, 80, true);
+
+    // Attach ISR to timer
+    timerAttachInterrupt(My_timer, &onTimer, true);
+
+    // Trigger interrupt every 1,000,000 microseconds
+    // = 1 second
+    // true = repeat automatically
+
+    timerAlarmWrite(My_timer, 1000000, true);
+
+    // Enable timer alarm
+    timerAlarmEnable(My_timer);
 }
 
-void loop() {
-  // nothing needed, all handled by interrupts
+void loop()
+{
+    // Nothing needed
 }
