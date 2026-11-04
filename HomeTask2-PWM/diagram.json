@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "author": "Muhammad Sami-ur-Rehman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-v1", "id": "esp", "top": 100, "left": 20, "attrs": {} },
+    { "type": "wokwi-led", "id": "led1", "top": -13.2, "left": 215, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": -22.8,
+      "left": 435.8,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 99.95,
+      "left": 470.4,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 99.95,
+      "left": 278.4,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "esp:18", "led1:A", "green", [] ],
+    [ "esp:19", "led2:A", "green", [] ],
+    [ "led1:A", "r2:1", "green", [ "v0" ] ],
+    [ "esp:GND.1", "led1:C", "black", [ "h109.11", "v-217.92" ] ],
+    [ "esp:GND.1", "led2:C", "black", [ "h0" ] ],
+    [ "r1:2", "esp:D19", "green", [ "v0" ] ],
+    [ "esp:D18", "r2:2", "green", [ "h214.71", "v-73.92" ] ],
+    [ "r1:1", "led2:A", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
